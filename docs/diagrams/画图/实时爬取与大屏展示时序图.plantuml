@@ -1,0 +1,48 @@
+@startuml
+
+actor User as User
+participant Frontend as Frontend
+participant Backend as Backend
+participant PythonScript as PythonScript
+participant Database as Database
+participant ClickRankingData as ClickRankingData
+participant AnalysisData as AnalysisData
+' Database --|> ClickRankingData: 存储
+' Database --|> AnalysisData: 存储
+
+
+activate Backend
+
+Backend -> PythonScript: 启动每日实时爬取任务
+activate PythonScript
+' PythonScript -> ClickRankingData: 爬取数据
+' deactivate PythonScript
+
+' ClickRankingData -> Database: 存储数据
+
+' activate PythonScript
+PythonScript -> ClickRankingData: 爬取数据，数据清洗
+activate ClickRankingData
+activate Database
+ClickRankingData -> Database: 存储清洗后的数据
+deactivate ClickRankingData
+deactivate PythonScript
+
+Database --> PythonScript: 返回清洗后的数据
+activate PythonScript
+PythonScript -> AnalysisData: 进行数据分析
+activate AnalysisData
+AnalysisData -> Database: 存储分析结果
+deactivate AnalysisData
+deactivate PythonScript
+activate User
+User -> Frontend: 访问前端
+User <-> Frontend: Socket连接
+activate Frontend
+Frontend -> Backend: 请求数据
+Backend -> Database: 获取最新的分析结果
+Database --> Backend: 返回最新的分析结果
+Backend -> Frontend: 返回数据
+deactivate Backend
+
+@enduml

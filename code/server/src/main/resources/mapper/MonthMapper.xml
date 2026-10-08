@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.python.api.mapper.MonthMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.python.api.entity.Month">
+        <id column="is_python" property="isPython" />
+        <result column="authorId" property="authorId" />
+        <result column="cateFineId" property="cateFineId" />
+        <result column="cateFineName" property="cateFineName" />
+        <result column="number" property="number" />
+        <result column="orderNo" property="orderNo" />
+        <result column="updownNumber" property="updownNumber" />
+        <result column="reward" property="reward" />
+        <result column="rewardType" property="rewardType" />
+        <result column="rewardStr" property="rewardStr" />
+        <result column="bookId" property="bookId" />
+        <result column="bookName" property="bookName" />
+        <result column="bookCover" property="bookCover" />
+        <result column="serialStatus" property="serialStatus" />
+        <result column="description" property="description" />
+        <result column="pseudonym" property="pseudonym" />
+        <result column="authorCover" property="authorCover" />
+        <result column="latestChapterTime" property="latestChapterTime" />
+        <result column="latestChapterId" property="latestChapterId" />
+        <result column="latestChapterName" property="latestChapterName" />
+        <result column="isFavorite" property="isFavorite" />
+        <result column="rankNo" property="rankNo" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        authorId, cateFineId, cateFineName, number, orderNo, updownNumber, reward, rewardType, rewardStr, bookId, bookName, bookCover, serialStatus, description, pseudonym, authorCover, latestChapterTime, latestChapterId, latestChapterName, isFavorite, is_python, rankNo
+    </sql>
+    <select id="selectTopMonths" resultType="com.python.api.bean.dto.BookAnalysis$WordCloud">
+        SELECT bookName AS name, SUM(number) AS value,bookId as clicks
+        FROM month
+        GROUP BY bookName,bookId
+        ORDER BY value desc LIMIT 500
+    </select>
+
+</mapper>

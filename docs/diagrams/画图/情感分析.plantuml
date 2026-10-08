@@ -1,0 +1,45 @@
+@startuml
+participant "Spark会话" as Spark
+participant "数据库" as DB
+participant "数据过滤" as Filter
+participant "数据清洗" as Clean
+participant "情感分析" as Analysis
+participant "阿里云NLP服务" as NLP
+participant "结果处理" as Process
+participant "返回结果" as Return
+
+activate Spark
+
+Spark -> DB: 从数据库读取数据
+activate DB
+DB -> Spark: 返回评论数据
+deactivate DB
+
+Spark -> Filter: 根据bookId过滤数据
+activate Filter
+Filter -> Spark: 返回过滤后的数据
+deactivate Filter
+
+Spark -> Clean: 清洗数据（移除HTML标签）
+activate Clean
+Clean -> Spark: 返回清洗后的数据
+deactivate Clean
+
+Spark -> Analysis: 准备情感分析
+activate Analysis
+
+Analysis -> NLP: 访问阿里云NLP服务
+activate NLP
+NLP -> Analysis: 返回分析结果
+deactivate NLP
+
+Analysis -> Process: 处理分析结果
+deactivate Analysis
+
+activate Process
+Process -> Return: 返回最终数据集
+deactivate Process
+
+Return -> Spark: 完成数据处理
+deactivate Spark
+@enduml

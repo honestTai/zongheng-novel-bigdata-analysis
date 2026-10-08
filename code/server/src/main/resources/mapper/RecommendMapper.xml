@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.python.api.mapper.RecommendMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.python.api.entity.Recommend">
+        <id column="isPython" property="isPython" />
+        <result column="authorId" property="authorId" />
+        <result column="cateFineId" property="cateFineId" />
+        <result column="cateFineName" property="cateFineName" />
+        <result column="rankNo" property="rankNo" />
+        <result column="number" property="number" />
+        <result column="orderNo" property="orderNo" />
+        <result column="updownNumber" property="updownNumber" />
+        <result column="reward" property="reward" />
+        <result column="rewardType" property="rewardType" />
+        <result column="rewardStr" property="rewardStr" />
+        <result column="bookId" property="bookId" />
+        <result column="bookName" property="bookName" />
+        <result column="bookCover" property="bookCover" />
+        <result column="serialStatus" property="serialStatus" />
+        <result column="description" property="description" />
+        <result column="pseudonym" property="pseudonym" />
+        <result column="authorCover" property="authorCover" />
+        <result column="latestChapterTime" property="latestChapterTime" />
+        <result column="latestChapterId" property="latestChapterId" />
+        <result column="latestChapterName" property="latestChapterName" />
+        <result column="isFavorite" property="isFavorite" />
+        <result column="type" property="type" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        authorId, cateFineId, cateFineName, rankNo, number, orderNo, updownNumber, reward, rewardType, rewardStr, bookId, bookName, bookCover, serialStatus, description, pseudonym, authorCover, latestChapterTime, latestChapterId, latestChapterName, isFavorite, isPython, type
+    </sql>
+
+</mapper>

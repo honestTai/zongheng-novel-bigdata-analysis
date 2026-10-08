@@ -1,0 +1,30 @@
+@startuml
+actor User
+participant JavaCode
+participant taskService
+participant scriptService
+participant PythonProcess
+participant PythonScript
+
+User -> JavaCode: start(id)
+JavaCode -> taskService: getById(id)
+taskService --> JavaCode: Task
+JavaCode -> Task: setTaskStartTime()
+JavaCode -> scriptService: getById(Task.getTaskScriptId())
+scriptService --> JavaCode: Script
+JavaCode -> Script: getScriptFilePath()
+JavaCode -> PythonProcess: exec("python " + Script.getScriptFilePath())
+PythonProcess -> PythonScript: Execute
+JavaCode -> PythonProcess: Execute
+PythonScript --> PythonProcess: Output
+JavaCode -> JavaCode: Print Output
+JavaCode -> PythonProcess: ErrorStream
+PythonProcess --> PythonScript: Error
+JavaCode -> JavaCode: Print Error
+JavaCode -> PythonProcess: waitFor()
+JavaCode -> Task: setTaskStatus("成功" or "失败")
+JavaCode -> Task: setTaskEndTime()
+JavaCode -> taskService: updateById(Task)
+JavaCode -> User: Exception (if any)
+
+@enduml

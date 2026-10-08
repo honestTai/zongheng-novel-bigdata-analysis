@@ -1,0 +1,25 @@
+@startuml
+participant "客户端" as Client
+participant "monthsLine方法" as Method
+participant "monthMapper" as Mapper
+participant "BookAnalysis.WordCloud" as WordCloud
+
+Client -> Method : monthsLine(bookId)
+Method -> Mapper : monthsLine(bookId)
+activate Mapper
+Mapper --> Method : 返回List<WordCloud>
+deactivate Mapper
+
+Method -> Mapper : clicksPie(bookId)
+activate Mapper
+Mapper --> Method : 返回List<WordCloud>
+deactivate Mapper
+
+Method -> Mapper : recommondsPie(bookId)
+activate Mapper
+Mapper --> Method : 返回List<WordCloud>
+deactivate Mapper
+
+Method -> Method : 处理数据
+Method --> Client : 返回新的BookAnalysis
+@enduml

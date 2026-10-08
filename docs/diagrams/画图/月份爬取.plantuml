@@ -1,0 +1,21 @@
+@startuml
+actor 主函数 as Main
+participant "DateTime" as DateTime
+participant "数据库" as Database
+participant "fetch_data 函数" as FetchData
+participant "HTTP 请求" as HTTPRequest
+participant "数据处理" as DataProcess
+
+Main -> DateTime: 获取当前时间和年份
+loop 对每个月份
+    Main -> FetchData: 创建线程并调用 fetch_data
+    activate FetchData
+    FetchData -> HTTPRequest: 发送带有参数的POST请求
+    activate HTTPRequest
+    HTTPRequest -> FetchData: 返回响应数据
+    deactivate HTTPRequest
+    FetchData -> DataProcess: 处理和格式化数据
+    DataProcess -> Database: 保存数据到数据库
+    deactivate FetchData
+end
+@enduml

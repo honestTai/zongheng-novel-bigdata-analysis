@@ -1,0 +1,24 @@
+@startuml
+actor 主函数 as Main
+participant 数据库 as DB
+participant "get_book_details 函数" as GetBookDetails
+participant "HTTP 请求" as HTTPRequest
+participant "HTML 解析" as HTMLParser
+participant "数据保存" as DataSave
+
+Main -> DB: 从数据库获取书籍ID和描述
+loop 对每本书籍
+    Main -> GetBookDetails: 创建线程并执行
+    activate GetBookDetails
+    GetBookDetails -> HTTPRequest: 构建URL并发起请求
+    activate HTTPRequest
+    HTTPRequest -> HTMLParser: 接收并解析HTML
+    deactivate HTTPRequest
+    activate HTMLParser
+    HTMLParser -> GetBookDetails: 返回解析后的数据
+    deactivate HTMLParser
+    GetBookDetails -> DataSave: 将数据保存到数据库
+    deactivate GetBookDetails
+end
+DataSave -> DB: 数据存储
+@enduml

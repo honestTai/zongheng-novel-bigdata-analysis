@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.python.api.mapper.BooksMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.python.api.entity.Books">
+        <id column="bookId" property="bookId" />
+        <result column="totalclick" property="totalclick" />
+        <result column="totalrecommend" property="totalrecommend" />
+        <result column="weekrecommend" property="weekrecommend" />
+        <result column="words" property="words" />
+        <result column="fans" property="fans" />
+        <result column="desc" property="descinfo" />
+        <result column="arthur" property="arthur" />
+        <result column="link" property="link" />
+        <result column="pic" property="pic" />
+        <result column="bookName" property="bookName" />
+        <result column="bookType" property="bookType" />
+        <result column="status" property="status" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        bookId, totalclick, totalrecommend, weekrecommend, words, fans, desc, arthur, link, pic, bookName, bookType, status
+    </sql>
+    <select id="selectTopBooksByFans" resultType="com.python.api.bean.dto.BookAnalysis$WordCloud">
+        SELECT bookName AS name, fans AS value
+        FROM books
+        ORDER BY fans DESC
+            LIMIT 200
+    </select>
+    <select id="selectTopBooksByWords" resultType="com.python.api.bean.dto.BookAnalysis$WordCloud">
+        SELECT
+            bookName AS name,
+            CASE
+                WHEN REPLACE(totalrecommend, '总推荐', '') LIKE '%万' THEN
+                    ROUND(CAST(REPLACE(REPLACE(totalrecommend, '总推荐', ''), '万', '') AS DECIMAL(10, 2)) * 10000)
+                ELSE
+                    ROUND(CAST(REPLACE(totalrecommend, '总推荐', '') AS DECIMAL(10, 2)))
+                END AS value
+        FROM
+            books
+        ORDER BY
+            value DESC
+            LIMIT 200;
+    </select>
+
+    <select id="selectTopBooksByRecommend" resultType="com.python.api.bean.dto.BookAnalysis$WordCloud">
+        SELECT
+            bookName AS name,
+            CASE
+                WHEN REPLACE(totalrecommend, '总推荐', '') LIKE '%万' THEN
+                    ROUND(CAST(REPLACE(REPLACE(totalrecommend, '总推荐', ''), '万', '') AS DECIMAL(10, 2)) * 10000)
+                ELSE
+                    ROUND(CAST(REPLACE(totalrecommend, '总推荐', '') AS DECIMAL(10, 2)))
+                END AS value
+        FROM
+            books
+        ORDER BY
+            value DESC
+    </select>
+    <select id="selectTopBooks" resultType="com.python.api.bean.dto.BookAnalysis$WordCloud">
+        SELECT
+            bookName AS name,
+            CASE
+                WHEN REPLACE(totalrecommend, '总推荐', '') LIKE '%万' THEN
+                    ROUND(CAST(REPLACE(REPLACE(totalrecommend, '总推荐', ''), '万', '') AS DECIMAL(10, 2)) * 10000)
+                ELSE
+                    ROUND(CAST(REPLACE(totalrecommend, '总推荐', '') AS DECIMAL(10, 2)))
+                END AS clicks,
+            CASE
+                WHEN REPLACE(words, '字数', '') LIKE '%万' THEN
+                    ROUND(CAST(REPLACE(REPLACE(words, '字数', ''), '万', '') AS DECIMAL(10, 2)) * 10000)
+                ELSE
+                    ROUND(CAST(REPLACE(words, '字数', '') AS DECIMAL(10, 2)))
+                END AS value
+        FROM
+            books
+        ORDER BY
+            name DESC;
+    </select>
+
+
+</mapper>

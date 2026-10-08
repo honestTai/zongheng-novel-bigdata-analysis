@@ -1,0 +1,49 @@
+@startuml
+
+actor User as User
+participant SpringBoot as SpringBoot
+participant PythonScript as PythonScript
+participant Database as Database
+
+User -> SpringBoot: 启动数据爬取
+activate User
+
+User -> SpringBoot: 发送数据爬取请求
+activate SpringBoot
+
+SpringBoot -> PythonScript: 触发Python脚本执行
+activate PythonScript
+
+PythonScript -> PythonScript: 请求URL并获取网页内容
+activate PythonScript
+PythonScript -> PythonScript: 设置用户代理（User-Agent）头
+PythonScript -> PythonScript: 发送HTTP请求
+PythonScript -> PythonScript: 读取响应内容
+deactivate PythonScript
+PythonScript -> PythonScript: 解析网页内容，提取数据
+PythonScript -> PythonScript: 调用getData函数
+PythonScript -> PythonScript: 循环遍历页面分页
+PythonScript -> PythonScript: 提取每个小说的信息
+PythonScript -> PythonScript: 存储数据到内存
+deactivate PythonScript
+
+PythonScript -> Database: 存储数据请求
+activate Database
+
+Database --> PythonScript: 存储数据确认
+deactivate Database
+
+PythonScript -> SpringBoot: 返回爬取结果
+activate SpringBoot
+
+SpringBoot -> PythonScript: 调用数据存储函数
+PythonScript -> PythonScript: 存储数据到数据库
+PythonScript -> SpringBoot: 返回存储结果
+deactivate PythonScript
+
+SpringBoot -> User: 返回爬取结果
+deactivate SpringBoot
+
+deactivate User
+
+@enduml

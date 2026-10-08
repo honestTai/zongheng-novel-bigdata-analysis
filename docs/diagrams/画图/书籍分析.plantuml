@@ -1,0 +1,57 @@
+@startuml
+participant "客户端" as Client
+participant "BookAnalysis方法" as Method
+participant "ExecutorService" as Executor
+participant "booksMapper" as Mapper
+participant "Future" as Future
+
+Client -> Method : 调用BookAnalysis()
+Method -> Executor : 创建线程池
+create Mapper
+Method -> Mapper : 初始化booksMapper
+
+Method -> Executor : 提交selectTopBooksByFans()
+activate Executor
+Executor -> Mapper : selectTopBooksByFans()
+activate Mapper
+Mapper --> Executor : 返回Future
+deactivate Mapper
+deactivate Executor
+
+Method -> Executor : 提交selectTopBooksByWords()
+activate Executor
+Executor -> Mapper : selectTopBooksByWords()
+activate Mapper
+Mapper --> Executor : 返回Future
+deactivate Mapper
+deactivate Executor
+
+Method -> Executor : 提交selectTopBooksByRecommend()
+activate Executor
+Executor -> Mapper : selectTopBooksByRecommend()
+activate Mapper
+Mapper --> Executor : 返回Future
+deactivate Mapper
+deactivate Executor
+
+Method -> Executor : 提交selectTopBooks()
+activate Executor
+Executor -> Mapper : selectTopBooks()
+activate Mapper
+Mapper --> Executor : 返回Future
+deactivate Mapper
+deactivate Executor
+
+Method -> Future : 从Futures获取结果
+activate Future
+Future --> Method : fansData, wordsData, recommendData, data
+deactivate Future
+
+Method -> Method : 处理数据
+Method -> Method : 创建line和lines对象
+
+Method -> Executor : 关闭线程池
+deactivate Executor
+
+Method --> Client : 返回BookAnalysis对象
+@enduml

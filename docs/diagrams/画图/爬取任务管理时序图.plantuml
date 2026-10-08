@@ -1,0 +1,70 @@
+@startuml
+
+actor User as User
+participant Frontend as Frontend
+participant Backend as Backend
+participant TaskScheduler as TaskScheduler
+participant TaskDatabase as TaskDatabase
+participant TaskRunner as TaskRunner
+
+User -> Frontend: 访问前端
+activate User
+
+User <-> Frontend: 交互
+activate Frontend
+
+Frontend -> Backend: 请求数据
+activate Backend
+
+Backend -> TaskScheduler: 创建定时爬取任务
+activate TaskScheduler
+activate TaskDatabase
+TaskScheduler -> TaskDatabase: 存储任务信息
+deactivate TaskScheduler
+
+Backend -> Frontend: 返回任务创建结果
+deactivate Backend
+
+Frontend -> Backend: 查询定时爬取任务
+activate Backend
+Backend -> TaskDatabase: 查询任务列表
+deactivate Backend
+Backend -> Frontend: 返回任务列表
+deactivate Backend
+
+Frontend -> Backend: 修改定时爬取任务
+activate Backend
+Backend -> TaskScheduler: 更新任务信息
+activate TaskScheduler
+TaskScheduler -> TaskDatabase: 存储任务更新
+deactivate TaskScheduler
+deactivate Backend
+
+Frontend -> Backend: 运行定时爬取任务
+activate Backend
+Backend -> TaskScheduler: 触发任务运行
+activate TaskScheduler
+TaskScheduler -> TaskDatabase: 记录任务运行状态（开始）
+deactivate TaskScheduler
+activate TaskRunner
+TaskRunner -> PythonScripts: 运行任务脚本
+PythonScripts -> TaskRunner: 返回运行结果
+TaskRunner -> TaskDatabase: 记录任务运行状态（成功/失败）
+deactivate TaskRunner
+deactivate Backend
+
+Backend -> Frontend: 返回任务运行结果
+deactivate Backend
+
+Frontend -> Backend: 删除定时爬取任务
+activate Backend
+Backend -> TaskScheduler: 删除任务信息
+activate TaskScheduler
+TaskScheduler -> TaskDatabase: 删除任务
+deactivate TaskScheduler
+deactivate Backend
+
+deactivate Frontend
+deactivate User
+
+@enduml

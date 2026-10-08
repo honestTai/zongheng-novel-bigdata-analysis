@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.python.api.mapper.CommentsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.python.api.entity.Comments">
+        <result column="forumsId" property="forumsId" />
+        <result column="threadId" property="threadId" />
+        <result column="userId" property="userId" />
+        <result column="type" property="type" />
+        <result column="title" property="title" />
+        <result column="authorStatus" property="authorStatus" />
+        <result column="upvoteNum" property="upvoteNum" />
+        <result column="checkStatus" property="checkStatus" />
+        <result column="sticky" property="sticky" />
+        <result column="rsuv" property="rsuv" />
+        <result column="lockStatus" property="lockStatus" />
+        <result column="createTime" property="createTime" />
+        <result column="refThreadId" property="refThreadId" />
+        <result column="imageUrl" property="imageUrl" />
+        <result column="lastPostTime" property="lastPostTime" />
+        <result column="content" property="content" />
+        <result column="orderNum" property="orderNum" />
+        <result column="opStatus" property="opStatus" />
+        <result column="refPostId" property="refPostId" />
+        <result column="nickName" property="nickName" />
+        <result column="userImgUrl" property="userImgUrl" />
+        <result column="postNum" property="postNum" />
+        <result column="contentType" property="contentType" />
+        <result column="donateUnit" property="donateUnit" />
+        <result column="replyPostParentId" property="replyPostParentId" />
+        <result column="beRepliedUserId" property="beRepliedUserId" />
+        <result column="beRepliedNickName" property="beRepliedNickName" />
+        <result column="rpList" property="rpList" />
+        <result column="beRefPost" property="beRefPost" />
+        <result column="threadDonateType" property="threadDonateType" />
+        <result column="mentionedUsers" property="mentionedUsers" />
+        <result column="mentionedNickNames" property="mentionedNickNames" />
+        <result column="fansScoreLevel" property="fansScoreLevel" />
+        <result column="scoreLevelNickName" property="scoreLevelNickName" />
+        <result column="forumLeaderStatus" property="forumLeaderStatus" />
+        <result column="userLevel" property="userLevel" />
+        <result column="isClickSupport" property="isClickSupport" />
+        <result column="speakForbid" property="speakForbid" />
+        <result column="markRed" property="markRed" />
+        <result column="refChapterName" property="refChapterName" />
+        <result column="refChapterContent" property="refChapterContent" />
+        <result column="heatNumber" property="heatNumber" />
+        <result column="heatIgnore" property="heatIgnore" />
+        <result column="heatNumMark" property="heatNumMark" />
+        <result column="redPacketId" property="redPacketId" />
+        <result column="includeThreadList" property="includeThreadList" />
+        <result column="trendIds" property="trendIds" />
+        <result column="trendViews" property="trendViews" />
+        <result column="ipRegion" property="ipRegion" />
+        <result column="bookId" property="bookId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        forumsId, threadId, userId, type, title, authorStatus, upvoteNum, checkStatus, sticky, rsuv, lockStatus, createTime, refThreadId, imageUrl, lastPostTime, content, orderNum, opStatus, refPostId, nickName, userImgUrl, postNum, contentType, donateUnit, replyPostParentId, beRepliedUserId, beRepliedNickName, rpList, beRefPost, threadDonateType, mentionedUsers, mentionedNickNames, fansScoreLevel, scoreLevelNickName, forumLeaderStatus, userLevel, isClickSupport, speakForbid, markRed, refChapterName, refChapterContent, heatNumber, heatIgnore, heatNumMark, redPacketId, includeThreadList, trendIds, trendViews, ipRegion, bookId
+    </sql>
+
+</mapper>
